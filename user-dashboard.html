@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Usuário - Adrenaline GYM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="user.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-dumbbell"></i>
+                <span>Adrenaline GYM</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a></li>
+                <li><a href="#training" class="nav-item" data-section="training">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Meus Treinos</span>
+                </a></li>
+                <li><a href="#schedule" class="nav-item" data-section="schedule">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendamentos</span>
+                </a></li>
+                <li><a href="#progress" class="nav-item" data-section="progress">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Meu Progresso</span>
+                </a></li>
+                <li><a href="#profile" class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Perfil</span>
+                </a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">João Silva</span>
+                    <span class="user-role">Aluno</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title" id="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="notifications">
+                    <button class="notification-btn" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notification-count">3</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h2>Bem-vindo de volta, <span id="welcome-name">João Silva</span>!</h2>
+                        <p>Continue sua jornada fitness com a Adrenaline GYM</p>
+                    </div>
+                    <div class="welcome-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-plans">2</h3>
+                            <p class="stat-label">Planos Ativos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-sessions">5</h3>
+                            <p class="stat-label">Sessões Agendadas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-workouts">28</h3>
+                            <p class="stat-label">Treinos Concluídos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Próximos Treinos</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="workout-list" id="upcoming-workouts">
+                                <div class="workout-item">
+                                    <div class="workout-time">
+                                        <span class="time">14:00</span>
+                                        <span class="date">Hoje</span>
+                                    </div>
+                                    <div class="workout-details">
+                                        <h4>Treino de Força</h4>
+                                        <p>Personal: Maria Santos</p>
+                                    </div>
+                                    <div class="workout-status">
+                                        <span class="status-badge status-scheduled">Agendado</span>
+                                    </div>
+                                </div>
+                                <div class="workout-item">
+                                    <div class="workout-time">
+                                        <span class="time">16:00</span>
+                                        <span class="date">Amanhã</span>
+                                    </div>
+                                    <div class="workout-details">
+                                        <h4>Treino Cardio</h4>
+                                        <p>Personal: Carlos Lima</p>
+                                    </div>
+                                    <div class="workout-status">
+                                        <span class="status-badge status-scheduled">Agendado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Ações Rápidas</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quick-actions">
+                                <button class="action-btn" onclick="showSection('schedule')">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>Agendar Treino</span>
+                                </button>
+                                <button class="action-btn" onclick="showSection('training')">
+                                    <i class="fas fa-dumbbell"></i>
+                                    <span>Ver Meus Treinos</span>
+                                </button>
+                                <button class="action-btn" onclick="showSection('progress')">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Ver Progresso</span>
+                                </button>
+                                <button class="action-btn" onclick="showSection('profile')">
+                                    <i class="fas fa-user-edit"></i>
+                                    <span>Editar Perfil</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Training Section -->
+            <section id="training-section" class="content-section">
+                <div class="section-header">
+                    <h2>Meus Treinos</h2>
+                    <button class="btn btn-primary" onclick="requestNewPlan()">
+                        <i class="fas fa-plus"></i>
+                        Solicitar Novo Plano
+                    </button>
+                </div>
+                
+                <div class="training-plans-grid" id="training-plans">
+                    <div class="training-plan-card">
+                        <div class="plan-header">
+                            <h3>Plano de Força</h3>
+                            <span class="plan-status active">Ativo</span>
+                        </div>
+                        <div class="plan-content">
+                            <p><strong>Personal:</strong> Maria Santos</p>
+                            <p><strong>Período:</strong> 01/06/2024 - 30/06/2024</p>
+                            <p><strong>Objetivo:</strong> Ganho de massa muscular e força</p>
+                            <div class="plan-details">
+                                <h4>Detalhes do Treino:</h4>
+                                <ul>
+                                    <li>Segunda: Peito e Tríceps</li>
+                                    <li>Terça: Costas e Bíceps</li>
+                                    <li>Quarta: Pernas</li>
+                                    <li>Quinta: Ombros</li>
+                                    <li>Sexta: Cardio</li>
+                                </ul>
+                            </div>
+                            <div class="plan-actions">
+                                <button class="btn btn-secondary" onclick="viewPlanDetails(1)">
+                                    <i class="fas fa-eye"></i>
+                                    Ver Detalhes
+                                </button>
+                                <button class="btn btn-primary" onclick="startWorkout(1)">
+                                    <i class="fas fa-play"></i>
+                                    Iniciar Treino
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="training-plan-card">
+                        <div class="plan-header">
+                            <h3>Plano Cardio</h3>
+                            <span class="plan-status active">Ativo</span>
+                        </div>
+                        <div class="plan-content">
+                            <p><strong>Personal:</strong> Carlos Lima</p>
+                            <p><strong>Período:</strong> 15/06/2024 - 15/07/2024</p>
+                            <p><strong>Objetivo:</strong> Perda de peso e condicionamento</p>
+                            <div class="plan-details">
+                                <h4>Detalhes do Treino:</h4>
+                                <ul>
+                                    <li>Segunda: HIIT 30min</li>
+                                    <li>Quarta: Corrida 45min</li>
+                                    <li>Sexta: Bike 40min</li>
+                                    <li>Sábado: Natação 30min</li>
+                                </ul>
+                            </div>
+                            <div class="plan-actions">
+                                <button class="btn btn-secondary" onclick="viewPlanDetails(2)">
+                                    <i class="fas fa-eye"></i>
+                                    Ver Detalhes
+                                </button>
+                                <button class="btn btn-primary" onclick="startWorkout(2)">
+                                    <i class="fas fa-play"></i>
+                                    Iniciar Treino
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule-section" class="content-section">
+                <div class="section-header">
+                    <h2>Agendamentos</h2>
+                    <button class="btn btn-primary" onclick="showScheduleModal()">
+                        <i class="fas fa-plus"></i>
+                        Novo Agendamento
+                    </button>
+                </div>
+                
+                <div class="schedule-filters">
+                    <div class="filter-group">
+                        <label for="month-filter">Mês:</label>
+                        <select id="month-filter" onchange="filterSchedules()">
+                            <option value="2024-06">Junho 2024</option>
+                            <option value="2024-07">Julho 2024</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="trainer-filter">Personal:</label>
+                        <select id="trainer-filter" onchange="filterSchedules()">
+                            <option value="">Todos</option>
+                            <option value="maria">Maria Santos</option>
+                            <option value="carlos">Carlos Lima</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="schedule-container">
+                    <div class="schedule-list" id="schedule-list">
+                        <div class="schedule-item">
+                            <div class="schedule-date">
+                                <span class="day">20</span>
+                                <span class="month">JUN</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Treino de Força</h4>
+                                <p><i class="fas fa-clock"></i> 14:00 - 15:00</p>
+                                <p><i class="fas fa-user"></i> Maria Santos</p>
+                            </div>
+                            <div class="schedule-actions">
+                                <span class="status-badge status-scheduled">Agendado</span>
+                                <button class="btn btn-sm btn-warning" onclick="cancelSchedule(1)">
+                                    <i class="fas fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="schedule-item">
+                            <div class="schedule-date">
+                                <span class="day">21</span>
+                                <span class="month">JUN</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Treino Cardio</h4>
+                                <p><i class="fas fa-clock"></i> 16:00 - 17:00</p>
+                                <p><i class="fas fa-user"></i> Carlos Lima</p>
+                            </div>
+                            <div class="schedule-actions">
+                                <span class="status-badge status-scheduled">Agendado</span>
+                                <button class="btn btn-sm btn-warning" onclick="cancelSchedule(2)">
+                                    <i class="fas fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="schedule-item">
+                            <div class="schedule-date">
+                                <span class="day">18</span>
+                                <span class="month">JUN</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Treino de Força</h4>
+                                <p><i class="fas fa-clock"></i> 14:00 - 15:00</p>
+                                <p><i class="fas fa-user"></i> Maria Santos</p>
+                            </div>
+                            <div class="schedule-actions">
+                                <span class="status-badge status-completed">Concluído</span>
+                                <button class="btn btn-sm btn-secondary" onclick="viewWorkoutSummary(3)">
+                                    <i class="fas fa-eye"></i>
+                                    Ver Resumo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress-section" class="content-section">
+                <div class="section-header">
+                    <h2>Meu Progresso</h2>
+                    <button class="btn btn-primary" onclick="addMeasurement()">
+                        <i class="fas fa-plus"></i>
+                        Adicionar Medição
+                    </button>
+                </div>
+                
+                <div class="progress-overview">
+                    <div class="progress-card">
+                        <h3>Evolução do Peso</h3>
+                        <div class="progress-chart">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Gráfico de evolução do peso</p>
+                                <div class="weight-progress">
+                                    <div class="weight-item">
+                                        <span class="date">01/06</span>
+                                        <span class="weight">78kg</span>
+                                    </div>
+                                    <div class="weight-item">
+                                        <span class="date">08/06</span>
+                                        <span class="weight">77.5kg</span>
+                                    </div>
+                                    <div class="weight-item">
+                                        <span class="date">15/06</span>
+                                        <span class="weight">77kg</span>
+                                    </div>
+                                    <div class="weight-item current">
+                                        <span class="date">Hoje</span>
+                                        <span class="weight">76.5kg</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <h3>Medidas Corporais</h3>
+                        <div class="measurements">
+                            <div class="measurement-item">
+                                <span class="label">Peso:</span>
+                                <span class="value">76.5 kg</span>
+                                <span class="change positive">-1.5kg</span>
+                            </div>
+                            <div class="measurement-item">
+                                <span class="label">Altura:</span>
+                                <span class="value">1.75 m</span>
+                                <span class="change neutral">-</span>
+                            </div>
+                            <div class="measurement-item">
+                                <span class="label">IMC:</span>
+                                <span class="value">25.0</span>
+                                <span class="change positive">-0.5</span>
+                            </div>
+                            <div class="measurement-item">
+                                <span class="label">% Gordura:</span>
+                                <span class="value">15%</span>
+                                <span class="change positive">-2%</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-full" onclick="viewFullProgress()">
+                            <i class="fas fa-chart-bar"></i>
+                            Ver Progresso Completo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="achievements-section">
+                    <h3>Conquistas</h3>
+                    <div class="achievements-grid">
+                        <div class="achievement-item earned">
+                            <i class="fas fa-trophy"></i>
+                            <span>Primeira Semana</span>
+                        </div>
+                        <div class="achievement-item earned">
+                            <i class="fas fa-fire"></i>
+                            <span>10 Treinos</span>
+                        </div>
+                        <div class="achievement-item earned">
+                            <i class="fas fa-medal"></i>
+                            <span>Perda de Peso</span>
+                        </div>
+                        <div class="achievement-item">
+                            <i class="fas fa-star"></i>
+                            <span>30 Treinos</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="content-section">
+                <div class="section-header">
+                    <h2>Meu Perfil</h2>
+                </div>
+                
+                <div class="profile-container">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                            <button class="avatar-edit" onclick="changeAvatar()">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="profile-name">João Silva</h3>
+                            <p id="profile-email">joao.silva@email.com</p>
+                            <span class="profile-role">Aluno</span>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="number">28</span>
+                                <span class="label">Treinos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number">2</span>
+                                <span class="label">Planos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number">3</span>
+                                <span class="label">Meses</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <h3>Informações Pessoais</h3>
+                        <form id="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-name-input">Nome Completo</label>
+                                    <input type="text" id="profile-name-input" name="name" value="João Silva">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-email-input">Email</label>
+                                    <input type="email" id="profile-email-input" name="email" value="joao.silva@email.com" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-phone">Telefone</label>
+                                    <input type="tel" id="profile-phone" name="phone" value="(11) 99999-9999">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-birth">Data de Nascimento</label>
+                                    <input type="date" id="profile-birth" name="birth_date" value="1990-05-15">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-height">Altura (cm)</label>
+                                    <input type="number" id="profile-height" name="height" value="175">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-goal">Objetivo</label>
+                                    <select id="profile-goal" name="goal">
+                                        <option value="weight-loss">Perda de Peso</option>
+                                        <option value="muscle-gain" selected>Ganho de Massa</option>
+                                        <option value="conditioning">Condicionamento</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                                    <i class="fas fa-undo"></i>
+                                    Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="password-section">
+                            <h3>Alterar Senha</h3>
+                            <form id="password-form">
+                                <div class="form-group">
+                                    <label for="current-password">Senha Atual</label>
+                                    <input type="password" id="current-password" name="current_password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">Nova Senha</label>
+                                    <input type="password" id="new-password" name="new_password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirmar Nova Senha</label>
+                                    <input type="password" id="confirm-password" name="confirm_password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-key"></i>
+                                    Alterar Senha
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Schedule Modal -->
+    <div id="schedule-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agendar Treino</h2>
+                <span class="close" onclick="hideScheduleModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="schedule-form">
+                    <div class="form-group">
+                        <label for="schedule-plan">Plano de Treino</label>
+                        <select id="schedule-plan" name="training_plan_id" required>
+                            <option value="">Selecione um plano</option>
+                            <option value="1">Plano de Força</option>
+                            <option value="2">Plano Cardio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-trainer">Personal Trainer</label>
+                        <select id="schedule-trainer" name="trainer_id" required>
+                            <option value="">Selecione um personal</option>
+                            <option value="maria">Maria Santos</option>
+                            <option value="carlos">Carlos Lima</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-date">Data</label>
+                        <input type="date" id="schedule-date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-time">Horário</label>
+                        <select id="schedule-time" name="time" required>
+                            <option value="">Selecione um horário</option>
+                            <option value="08:00">08:00</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-notes">Observações (opcional)</label>
+                        <textarea id="schedule-notes" name="notes" rows="3" placeholder="Alguma observação especial para o treino..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-calendar-plus"></i>
+                        Agendar Treino
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div id="notifications-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Notificações</h2>
+                <span class="close" onclick="hideNotificationsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="notifications-list">
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Treino Agendado</h4>
+                            <p>Seu treino de força foi agendado para hoje às 14:00</p>
+                            <span class="notification-time">2 horas atrás</span>
+                        </div>
+                    </div>
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Nova Conquista!</h4>
+                            <p>Parabéns! Você completou 25 treinos</p>
+                            <span class="notification-time">1 dia atrás</span>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Novo Plano Disponível</h4>
+                            <p>Maria Santos criou um novo plano de treino para você</p>
+                            <span class="notification-time">3 dias atrás</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-full" onclick="markAllAsRead()">
+                    <i class="fas fa-check-double"></i>
+                    Marcar Todas como Lidas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p id="loading-text">Carregando...</p>
+        </div>
+    </div>
+
+    <script src="user.js"></script>
+</body>
+</html>

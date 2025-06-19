@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="user.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">              
+                <span>Adrenaline</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a></li>
+                <li><a href="#users" class="nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>Usuários</span>
+                </a></li>
+                <li><a href="#employees" class="nav-item" data-section="employees">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Funcionários</span>
+                </a></li>
+                <li><a href="#reports" class="nav-item" data-section="reports">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Relatórios</span>
+                </a></li>
+                <li><a href="#settings" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name" id="admin-name">Administrador</span>
+                    <span class="user-role">Admin</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title" id="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="notifications">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+                <div class="user-menu">
+                    <button class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="total-users">0</h3>
+                        <p class="stat-label">Total de Usuários</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="total-personal">0</h3>
+                        <p class="stat-label">Personal Trainers</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="total-plans">0</h3>
+                        <p class="stat-label">Planos de Treino</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="total-sessions">0</h3>
+                        <p class="stat-label">Sessões Agendadas</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Atividade Recente</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="activity-list" id="recent-activity">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Novo usuário cadastrado</p>
+                                    <span class="activity-time">2 horas atrás</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Plano de treino criado</p>
+                                    <span class="activity-time">4 horas atrás</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Ações Rápidas</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="showSection('users')">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Adicionar Usuário</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('employees')">
+                                <i class="fas fa-user-tie"></i>
+                                <span>Gerenciar Funcionários</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('reports')">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Ver Relatórios</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users-section" class="content-section">
+            <div class="section-header">
+                <h2>Gerenciar Usuários</h2>
+                <button class="btn btn-primary" onclick="showAddUserModal()">
+                    <i class="fas fa-plus"></i>
+                    Adicionar Usuário
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Dados serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Employees Section -->
+        <section id="employees-section" class="content-section">
+            <div class="section-header">
+                <h2>Gerenciar Funcionários</h2>
+                <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+                    <i class="fas fa-plus"></i>
+                    Adicionar Funcionário
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Função</th>
+                            <th>Tipo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employees-table-body">
+                        <!-- Dados serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports-section" class="content-section">
+            <div class="section-header">
+                <h2>Relatórios</h2>
+            </div>
+            
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="report-content">
+                        <h3>Relatório de Usuários</h3>
+                        <p>Estatísticas detalhadas sobre usuários cadastrados</p>
+                        <button class="btn btn-secondary">Gerar Relatório</button>
+                    </div>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="report-content">
+                        <h3>Relatório de Atividades</h3>
+                        <p>Análise das atividades e treinos realizados</p>
+                        <button class="btn btn-secondary">Gerar Relatório</button>
+                    </div>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="report-content">
+                        <h3>Relatório Financeiro</h3>
+                        <p>Resumo financeiro e estatísticas de receita</p>
+                        <button class="btn btn-secondary">Gerar Relatório</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-section" class="content-section">
+            <div class="section-header">
+                <h2>Configurações</h2>
+            </div>
+            
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Configurações Gerais</h3>
+                    <div class="setting-item">
+                        <label>Nome da Academia</label>
+                        <input type="text" value="Adrenaline" class="form-input">
+                    </div>
+                    <div class="setting-item">
+                        <label>Email de Contato</label>
+                        <input type="email" value="contato@johnnysstrong.com" class="form-input">
+                    </div>
+                    <div class="setting-item">
+                        <label>Telefone</label>
+                        <input type="tel" value="(11) 99999-9999" class="form-input">
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>Configurações de Sistema</h3>
+                    <div class="setting-item">
+                        <label>Backup Automático</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="auto-backup" checked>
+                            <label for="auto-backup"></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Notificações por Email</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="email-notifications" checked>
+                            <label for="email-notifications"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add User Modal -->
+    <div id="add-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Usuário</h2>
+                <span class="close" onclick="hideAddUserModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-user-form">
+                    <div class="form-group">
+                        <label for="user-name">Nome Completo</label>
+                        <input type="text" id="user-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email">Email</label>
+                        <input type="email" id="user-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-password">Senha</label>
+                        <input type="password" id="user-password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-role">Tipo de Usuário</label>
+                        <select id="user-role" name="role" required>
+                            <option value="user">Usuário</option>
+                            <option value="personal">Personal Trainer</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Salvar Usuário
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div id="add-employee-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Funcionário</h2>
+                <span class="close" onclick="hideAddEmployeeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-employee-form">
+                    <div class="form-group">
+                        <label for="employee-user">Usuário</label>
+                        <select id="employee-user" name="user_id" required>
+                            <option value="">Selecione um usuário</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="employee-function">Função</label>
+                        <input type="text" id="employee-function" name="function" placeholder="Ex: Personal Trainer, Recepcionista" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Salvar Funcionário
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

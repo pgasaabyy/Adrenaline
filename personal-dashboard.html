@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Personal Trainer - Adrenaline GYM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="per.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-dumbbell"></i>
+                <span>Adrenaline GYM</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a></li>
+                <li><a href="#clients" class="nav-item" data-section="clients">
+                    <i class="fas fa-users"></i>
+                    <span>Meus Clientes</span>
+                </a></li>
+                <li><a href="#plans" class="nav-item" data-section="plans">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Planos de Treino</span>
+                </a></li>
+                <li><a href="#progress" class="nav-item" data-section="progress">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Progresso</span>
+                </a></li>
+                <li><a href="#schedule" class="nav-item" data-section="schedule">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agenda</span>
+                </a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name" id="personal-name">Maria Santos</span>
+                    <span class="user-role">Personal Trainer</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title" id="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="notifications">
+                    <button class="notification-btn" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notification-count">4</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h2>Bem-vinda, <span id="welcome-name">Maria Santos</span>!</h2>
+                        <p>Gerencie seus clientes e planos de treino</p>
+                    </div>
+                    <div class="welcome-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-clients">15</h3>
+                            <p class="stat-label">Meus Clientes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-plans">23</h3>
+                            <p class="stat-label">Planos Ativos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-sessions">8</h3>
+                            <p class="stat-label">Sessões Hoje</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="total-achievements">42</h3>
+                            <p class="stat-label">Objetivos Alcançados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Próximas Sessões</h3>
+                            <button class="btn btn-sm btn-secondary" onclick="showSection('schedule')">
+                                <i class="fas fa-calendar"></i>
+                                Ver Agenda
+                            </button>
+                        </div>
+                        <div class="card-content">
+                            <div class="session-list" id="upcoming-sessions">
+                                <div class="session-item">
+                                    <div class="session-time">
+                                        <span class="time">14:00</span>
+                                        <span class="date">Hoje</span>
+                                    </div>
+                                    <div class="session-details">
+                                        <h4>João Silva</h4>
+                                        <p>Treino de Força - Peito e Tríceps</p>
+                                    </div>
+                                    <div class="session-actions">
+                                        <button class="btn btn-sm btn-success" onclick="startSession(1)">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="session-item">
+                                    <div class="session-time">
+                                        <span class="time">16:00</span>
+                                        <span class="date">Hoje</span>
+                                    </div>
+                                    <div class="session-details">
+                                        <h4>Ana Costa</h4>
+                                        <p>Treino Cardio - HIIT</p>
+                                    </div>
+                                    <div class="session-actions">
+                                        <button class="btn btn-sm btn-success" onclick="startSession(2)">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="session-item">
+                                    <div class="session-time">
+                                        <span class="time">18:00</span>
+                                        <span class="date">Hoje</span>
+                                    </div>
+                                    <div class="session-details">
+                                        <h4>Carlos Lima</h4>
+                                        <p>Treino Funcional</p>
+                                    </div>
+                                    <div class="session-actions">
+                                        <button class="btn btn-sm btn-success" onclick="startSession(3)">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Ações Rápidas</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quick-actions">
+                                <button class="action-btn" onclick="showCreatePlanModal()">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Criar Plano de Treino</span>
+                                </button>
+                                <button class="action-btn" onclick="showSection('clients')">
+                                    <i class="fas fa-users"></i>
+                                    <span>Gerenciar Clientes</span>
+                                </button>
+                                <button class="action-btn" onclick="showSection('progress')">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Registrar Progresso</span>
+                                </button>
+                                <button class="action-btn" onclick="showAddClientModal()">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Adicionar Cliente</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clients Section -->
+            <section id="clients-section" class="content-section">
+                <div class="section-header">
+                    <h2>Meus Clientes</h2>
+                    <button class="btn btn-primary" onclick="showAddClientModal()">
+                        <i class="fas fa-user-plus"></i>
+                        Adicionar Cliente
+                    </button>
+                </div>
+                
+                <div class="clients-grid" id="clients-grid">
+                    <!-- Clients will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Plans Section -->
+            <section id="plans-section" class="content-section">
+                <div class="section-header">
+                    <h2>Planos de Treino</h2>
+                    <button class="btn btn-primary" onclick="showCreatePlanModal()">
+                        <i class="fas fa-plus"></i>
+                        Criar Plano
+                    </button>
+                </div>
+                
+                <div class="plans-grid" id="plans-grid">
+                    <!-- Plans will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress-section" class="content-section">
+                <div class="section-header">
+                    <h2>Registrar Progresso</h2>
+                </div>
+                
+                <div class="progress-form-container">
+                    <form id="progress-form" class="progress-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="progress-client">Cliente</label>
+                                <select id="progress-client" name="client_id" required>
+                                    <option value="">Selecione um cliente</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="progress-plan">Plano de Treino</label>
+                                <select id="progress-plan" name="plan_id" required>
+                                    <option value="">Selecione um plano</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="progress-weight">Peso Atual (kg)</label>
+                                <input type="number" id="progress-weight" name="weight" step="0.1" placeholder="Ex: 75.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="progress-body-fat">% Gordura Corporal</label>
+                                <input type="number" id="progress-body-fat" name="body_fat" step="0.1" placeholder="Ex: 15.2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="progress-details">Observações do Progresso</label>
+                            <textarea id="progress-details" name="progress_details" rows="5" placeholder="Descreva o progresso do cliente, melhorias observadas, dificuldades, etc..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="progress-photos">Fotos de Progresso</label>
+                            <input type="file" id="progress-photos" name="photos" multiple accept="image/*">
+                            <small>Selecione até 3 fotos para acompanhar o progresso visual</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-save"></i>
+                            Registrar Progresso
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule-section" class="content-section">
+                <div class="section-header">
+                    <h2>Agenda</h2>
+                    <button class="btn btn-primary" onclick="showScheduleModal()">
+                        <i class="fas fa-calendar-plus"></i>
+                        Agendar Sessão
+                    </button>
+                </div>
+                
+                <div class="schedule-filters">
+                    <div class="filter-group">
+                        <label for="schedule-date-filter">Data:</label>
+                        <input type="date" id="schedule-date-filter" onchange="filterSchedule()">
+                    </div>
+                    <div class="filter-group">
+                        <label for="schedule-client-filter">Cliente:</label>
+                        <select id="schedule-client-filter" onchange="filterSchedule()">
+                            <option value="">Todos os clientes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="schedule-status-filter">Status:</label>
+                        <select id="schedule-status-filter" onchange="filterSchedule()">
+                            <option value="">Todos</option>
+                            <option value="scheduled">Agendado</option>
+                            <option value="completed">Concluído</option>
+                            <option value="cancelled">Cancelado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="schedule-container">
+                    <div class="schedule-list" id="schedule-list">
+                        <!-- Schedule items will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Add Client Modal -->
+    <div id="add-client-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Cliente</h2>
+                <span class="close" onclick="hideAddClientModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-client-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-name">Nome Completo</label>
+                            <input type="text" id="client-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-email">Email</label>
+                            <input type="email" id="client-email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-phone">Telefone</label>
+                            <input type="tel" id="client-phone" name="phone" placeholder="(11) 99999-9999">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-birth">Data de Nascimento</label>
+                            <input type="date" id="client-birth" name="birth_date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-height">Altura (cm)</label>
+                            <input type="number" id="client-height" name="height" placeholder="175">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-weight">Peso (kg)</label>
+                            <input type="number" id="client-weight" name="weight" step="0.1" placeholder="70.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-goal">Objetivo Principal</label>
+                        <select id="client-goal" name="goal" required>
+                            <option value="">Selecione um objetivo</option>
+                            <option value="weight-loss">Perda de Peso</option>
+                            <option value="muscle-gain">Ganho de Massa Muscular</option>
+                            <option value="conditioning">Condicionamento Físico</option>
+                            <option value="strength">Ganho de Força</option>
+                            <option value="rehabilitation">Reabilitação</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-notes">Observações</label>
+                        <textarea id="client-notes" name="notes" rows="3" placeholder="Informações médicas, restrições, preferências..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-user-plus"></i>
+                        Adicionar Cliente
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Plan Modal -->
+    <div id="create-plan-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Criar Plano de Treino</h2>
+                <span class="close" onclick="hideCreatePlanModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="create-plan-form">
+                    <div class="form-group">
+                        <label for="plan-client">Cliente</label>
+                        <select id="plan-client" name="client_id" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="plan-name">Nome do Plano</label>
+                            <input type="text" id="plan-name" name="name" placeholder="Ex: Treino de Força - Iniciante" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plan-type">Tipo de Treino</label>
+                            <select id="plan-type" name="type" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="strength">Força</option>
+                                <option value="cardio">Cardio</option>
+                                <option value="functional">Funcional</option>
+                                <option value="hiit">HIIT</option>
+                                <option value="mixed">Misto</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="plan-start-date">Data de Início</label>
+                            <input type="date" id="plan-start-date" name="start_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plan-end-date">Data de Término</label>
+                            <input type="date" id="plan-end-date" name="end_date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plan-objective">Objetivo do Plano</label>
+                        <textarea id="plan-objective" name="objective" rows="2" placeholder="Descreva o objetivo específico deste plano..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="plan-details">Detalhes do Plano</label>
+                        <textarea id="plan-details" name="details" rows="6" placeholder="Descreva os exercícios, séries, repetições, dias da semana..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-save"></i>
+                        Criar Plano
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div id="schedule-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agendar Sessão</h2>
+                <span class="close" onclick="hideScheduleModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="schedule-form">
+                    <div class="form-group">
+                        <label for="schedule-client">Cliente</label>
+                        <select id="schedule-client" name="client_id" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-plan-select">Plano de Treino</label>
+                        <select id="schedule-plan-select" name="plan_id" required>
+                            <option value="">Selecione um plano</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="schedule-date">Data</label>
+                            <input type="date" id="schedule-date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="schedule-time">Horário</label>
+                            <select id="schedule-time" name="time" required>
+                                <option value="">Selecione um horário</option>
+                                <option value="06:00">06:00</option>
+                                <option value="07:00">07:00</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-duration">Duração (minutos)</label>
+                        <select id="schedule-duration" name="duration" required>
+                            <option value="60">60 minutos</option>
+                            <option value="90">90 minutos</option>
+                            <option value="120">120 minutos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-notes">Observações</label>
+                        <textarea id="schedule-notes" name="notes" rows="3" placeholder="Observações especiais para esta sessão..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-calendar-plus"></i>
+                        Agendar Sessão
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div id="notifications-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Notificações</h2>
+                <span class="close" onclick="hideNotificationsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="notifications-list">
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Nova Sessão Agendada</h4>
+                            <p>João Silva agendou uma sessão para amanhã às 14:00</p>
+                            <span class="notification-time">5 min atrás</span>
+                        </div>
+                    </div>
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Novo Cliente</h4>
+                            <p>Ana Costa foi adicionada como sua cliente</p>
+                            <span class="notification-time">1 hora atrás</span>
+                        </div>
+                    </div>
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Objetivo Alcançado</h4>
+                            <p>Carlos Lima atingiu sua meta de peso!</p>
+                            <span class="notification-time">2 horas atrás</span>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Plano Finalizado</h4>
+                            <p>O plano de treino de Maria Silva foi concluído</p>
+                            <span class="notification-time">1 dia atrás</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-full" onclick="markAllAsRead()">
+                    <i class="fas fa-check-double"></i>
+                    Marcar Todas como Lidas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p id="loading-text">Carregando...</p>
+        </div>
+    </div>
+
+    <script src="per.js"></script>
+</body>
+</html>
